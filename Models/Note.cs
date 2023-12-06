@@ -2,22 +2,22 @@
 
 internal class Note
 {
-    public string Filename { get; set; }
-    public string Text { get; set; }
-    public DateTime Date { get; set; }
+    public string mzFilename { get; set; }
+    public string mzText { get; set; }
+    public DateTime mzDate { get; set; }
 
     public Note()
     {
-        Filename = $"{Path.GetRandomFileName()}.notes.txt";
-        Date = DateTime.Now;
-        Text = "";
+        mzFilename = $"{Path.GetRandomFileName()}.notes.txt";
+        mzDate = DateTime.Now;
+        mzText = "";
     }
 
     public void Save() =>
-    File.WriteAllText(System.IO.Path.Combine(FileSystem.AppDataDirectory, Filename), Text);
+    File.WriteAllText(System.IO.Path.Combine(FileSystem.AppDataDirectory, mzFilename), mzText);
 
     public void Delete() =>
-        File.Delete(System.IO.Path.Combine(FileSystem.AppDataDirectory, Filename));
+        File.Delete(System.IO.Path.Combine(FileSystem.AppDataDirectory, mzFilename));
 
     public static Note Load(string filename)
     {
@@ -29,9 +29,9 @@ internal class Note
         return
             new()
             {
-                Filename = Path.GetFileName(filename),
-                Text = File.ReadAllText(filename),
-                Date = File.GetLastWriteTime(filename)
+                mzFilename = Path.GetFileName(filename),
+                mzText = File.ReadAllText(filename),
+                mzDate = File.GetLastWriteTime(filename)
             };
     }
 
@@ -50,7 +50,7 @@ internal class Note
                 .Select(filename => Note.Load(Path.GetFileName(filename)))
 
                 // With the final collection of notes, order them by date
-                .OrderByDescending(note => note.Date);
+                .OrderByDescending(note => note.mzDate);
     }
 
 }

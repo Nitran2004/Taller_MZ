@@ -15,20 +15,20 @@ internal class NoteViewModel : ObservableObject, IQueryAttributable
 
     public string Text
     {
-        get => _note.Text;
+        get => _note.mzText;
         set
         {
-            if (_note.Text != value)
+            if (_note.mzText != value)
             {
-                _note.Text = value;
+                _note.mzText = value;
                 OnPropertyChanged();
             }
         }
     }
 
-    public DateTime Date => _note.Date;
+    public DateTime Date => _note.mzDate;
 
-    public string Identifier => _note.Filename;
+    public string Identifier => _note.mzFilename;
 
     public ICommand SaveCommand { get; private set; }
     public ICommand DeleteCommand { get; private set; }
@@ -49,15 +49,15 @@ internal class NoteViewModel : ObservableObject, IQueryAttributable
 
     private async Task Save()
     {
-        _note.Date = DateTime.Now;
+        _note.mzDate = DateTime.Now;
         _note.Save();
-        await Shell.Current.GoToAsync($"..?saved={_note.Filename}");
+        await Shell.Current.GoToAsync($"..?saved={_note.mzFilename}");
     }
 
     private async Task Delete()
     {
         _note.Delete();
-        await Shell.Current.GoToAsync($"..?deleted={_note.Filename}");
+        await Shell.Current.GoToAsync($"..?deleted={_note.mzFilename}");
     }
 
     void IQueryAttributable.ApplyQueryAttributes(IDictionary<string, object> query)
@@ -71,7 +71,7 @@ internal class NoteViewModel : ObservableObject, IQueryAttributable
 
     public void Reload()
     {
-        _note = Models.Note.Load(_note.Filename);
+        _note = Models.Note.Load(_note.mzFilename);
         RefreshProperties();
     }
 
